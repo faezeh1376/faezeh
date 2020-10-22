@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<title>Strix</title>
+
+	<meta charset="utf-8">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="https://fonts.googleapis.com/css?family=Damion|Gochi+Hand|Raleway:200,300,400,500,600,700,800,900|Droid+Serif:400,400italic,700,700italic" rel="stylesheet">
+	
+	<link rel="stylesheet" href="{% static 'css/strix-assets.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" media="screen">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/fonts.css' %}" media="screen">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <div id="container">
+        {% block body %} 
+        {% endblock %}
+    </div>
+    {% include "partial/footer.html" %}
+    
+	<script src="{% static 'js/strix-plugins.min.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

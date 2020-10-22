@@ -1,0 +1,184 @@
+{% extends 'parent/main.html' %}
+{% load static %} 
+
+{% block body %} 
+
+{% include 'partial/header.html' %}
+{% include 'partial/banner.html' %}
+{% include 'partial/page_depth.html' %}
+ 
+
+		<!-- single-product-section
+			================================================== -->
+
+			{% for message in messages %}
+			{% if messages %}
+			<div style="text-align: center; background-color: #9cd22e; color: white; margin: 30px; padding: 11px; border-radius: 10px;">
+					{{ message }}
+				</div>
+				{% endif %}
+			{% endfor %}
+		 
+			<section class="single-product-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="product-gallery">
+							<div class="product-visibility">
+								<ul class="other-products">
+									 {% if post.photo_post1 %}<li><a data-image="{% url 'app:Media' post.photo_post %}"><img alt="" src="{% url 'app:Media' post.photo_post %}"></a></li> {% endif %}
+									 {% if post.photo_post1 %}<li><a data-image="{% url 'app:Media' post.photo_post1 %}"><img alt="" src="{% url 'app:Media' post.photo_post1 %}"></a></li> {% endif %}
+									 {% if post.photo_post2 %}<li><a data-image="{% url 'app:Media' post.photo_post2 %}"><img alt="" src="{% url 'app:Media' post.photo_post2 %}"></a></li> {% endif %}
+									 {% if post.photo_post3 %}<li><a data-image="{% url 'app:Media' post.photo_post3 %}"><img alt="" src="{% url 'app:Media' post.photo_post3 %}"></a></li> {% endif %}
+									 {% if post.photo_post4 %}<li><a data-image="{% url 'app:Media' post.photo_post4 %}"><img alt="" src="{% url 'app:Media' post.photo_post4 %}"></a></li> {% endif %}
+							 
+								</ul>
+								<div class="image-holder">
+									<img alt="" src="{% url 'app:Media' post.photo_post %}">
+								</div>
+							</div>								
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="product-details">
+							<h1 style="direction: rtl;">{{ post.title }}</h1> 
+							{% if post.status == 'available' %}
+
+							<span class="price" style="direction:rtl;">
+								{% if post.status == 'available' %}
+								{% if post.Discount %}
+								<strike style="margin: 0 0 0 30px;"> {{post.price}} تومان </strike>
+						 
+									<span style="margin: 0 0 30px 0;">{{post.Discount}} تومان </span>
+								{% else %}
+								{{post.price}}  تومان  
+								{% endif %}
+							{% else %}
+							ناموجود 
+							{% endif %}
+ 
+							</span>
+
+							<p></p>
+							<form action="{% url 'app:sabad_kharid' %}" method="post">
+								{% csrf_token %}
+							<div class="quantity-add">
+								<button  type="button"  class="decrease">-</button>
+								<input type="hidden" name="post" value = "{{ post.id }}">
+								<input type="text" id="quantity-number" name="count" min="{% if post.count > 0 %}1{% else %}1{% endif %}" max = "{{post.count}}"value="0"/>
+								<button type="button" class="increase">+</button>
+							</div>
+							{% if not request.user.is_authenticated %}
+							 	<a href="{% url 'app:login' %}"  style=" background-color: beige;padding: 10px 34px;" >افزودن به سبد خرید</a>
+							{% else %}
+								<button type="submit" style="margin: 0 34px;   width: 120px; background-color: beige;">افزودن به سبد خرید</button>
+							{% endif %}
+							 
+						</form>
+						{% endif %}
+							<div class="prod-list" style="direction: rtl;">  
+								<div class="prod-list-item">
+									<span>دسته بندی ها :</span>
+									<ul class="product-cat">
+									{% for category in post.category.all %}
+										
+											<li><a href="{% url 'app:categorys' category %}">{{category}}{% if post.category.all > 1 %}, {% endif %}</a></li> 
+									{% endfor %}
+									</ul>
+									
+								</div>
+								<div class="prod-list-item">
+									<span>{% if post.status == 'available' %} تعداد : {% else %} وضعیت: {% endif %} </span>
+									<ul class="product-cat">
+										<br> 
+										<li><a  >{% if post.status == 'available' %}{{post.count}}{% else %}ناموجود{% endif %}</a></li>  
+									</ul>
+								</div> 
+								<div class="prod-list-item">
+									<span>هشتگ ها: </span>
+									<ul class="product-cat">
+										<br>
+										{% for tag in post.tags %}
+										<li><a  >{{tag}}</a></li> 
+										{% endfor %}
+									</ul>
+								</div>
+								
+
+							</div>
+
+						</div>	
+
+					</div>
+
+				</div>
+
+				<!-- Nav tabs -->
+				<div class="single-prod-tab-box">
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active">
+							<a href="#option1" data-toggle="tab">توضیحات</a>
+						</li> 
+						<li>
+							<a href="#option3" data-toggle="tab">نظرات ({{ len_if_accepted_comments | length }})</a>
+						</li>
+					</ul>
+
+					<div class="tab-content" style="direction: rtl; text-align: justify; max-width:1140px;">
+						<div class="tab-pane active" id="option1">
+								{{post.content  | safe}}
+						</div> 
+						<div class="tab-pane" id="option3">
+							<div class="product-reviews">
+								<ul> 
+									{% for comment in comments %}
+										{% if comment.status %}
+										<li>
+											<div class="review-content" style="   direction: rtl;text-align:right;">
+												<h2> {{ comment.name }} </h2>
+												<span class="time"> {{ comment.create_date }} </span>
+												<p>{{comment.comment}}</p>
+											</div>
+											{% if comment.answer %}
+											<div class="review-content" style="margin-right: 100px; direction: rtl;text-align:right;">
+												<h2> ادمین </h2>
+												<span class="time"> {{ comment.update_date }} </span>
+												<p>{{comment.answer}}</p>
+											</div> 
+											{% endif %}
+										</li>  
+
+									 
+											
+										{% endif %}
+									{% endfor %}
+								</ul>
+								<form id="add-review-form" style="text-align:right;" method="POST" action = '{% url "app:comment" %}' >
+									<h1>ارسال نظر</h1>
+									<div class="row">
+										<div class="col-md-4">
+											<input name="name" id="name" type="text" placeholder="نام و نام خانوادگی*">
+										</div>
+										<div class="col-md-4">
+											<input name="mail" id="mail" type="text" placeholder="ایمیل*">
+											<input name="post_id" value="{{post.id}}" type="hidden">
+										</div> 
+									</div>
+									{% csrf_token %}
+									<textarea name="comment" id="comment" placeholder="نظر..."></textarea>
+									<div class="submit-area">
+										<input type="submit" id="submit_review" value="ثبت">							
+									</div>
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- End Nav tabs -->
+			</div>
+		</section>
+		<!-- End single-product-section -->
+  
+
+		{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'parent/main.html' %}
+
+{% block body %} 
+
+{% include 'partial/header.html' %}
+{% include 'partial/banner.html' %}
+{% include 'partial/page_depth.html' %}
+
+{% load static %}
+<style>.price{direction: rtl;}</style>
+<!-- product-section
+			================================================== -->
+            <section class="product-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="product-box">
+                                <div class="product-bar">
+                                    
+                                    <p>نتایج: ({{posts.paginator.count}})</p> 
+                                </div>
+                                
+                                <div class="row">
+                                    {% for post in posts %}
+                                    <div class="col-md-4">
+                                        <div class="product-post">
+                                            <div class="product-gal">
+                                                <img style = "width: 300px; height: 300px;" src="{% url 'app:Media' post.photo_post %}" alt="">
+                                                <div class="hover-product"  style="background: rgba(255, 255, 255, 0.37);">
+                                                    <div class="inner-hover"> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span>دسته بندی 
+                                                {% for category in post.category.all %}
+                                                / <a href="{% url 'app:categorys' category %}">{{category.name}}</a>
+                                                {% endfor %}
+                                            </span>
+                                            <h2><a href="{% url 'app:detail' post.id %}">{{post.title}}</a></h2>
+                                            <p>
+                                                <span class="price"> 
+                                                    {% if post.status == 'available' %}
+                                                        {% if post.Discount %}
+                                                        <strike style="margin: 0 0 0 30px;"> {{post.price}} تومان </strike>
+                                                 
+                                                            <span style="margin: 0 0 30px 0;">{{post.Discount}} تومان </span>
+                                                        {% else %}
+                                                        {{post.price}}  تومان  
+                                                        {% endif %}
+                                                    {% else %}
+                                                    ناموجود 
+                                                    {% endif %}
+                                                </span>
+                                            </p>
+                                            
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                
+                 
+                                {% if posts.has_other_pages %}
+                                <div class="product-pagination">
+                                    <ul>
+                                        {% if posts.has_previous %}
+                                        <li><a href="?{% if query  %}q={{ query }}&{% endif %}page={{ posts.previous_page_number }}">صفحه قبل</a></li>
+                                        {% endif %}
+                                        {% for i in posts.paginator.page_range %}
+                                        {% if posts.number == i %}
+                                        <li><a style="background-color: brown; color: white; " >{{ i }}</a></li> 
+                                        {% else %}
+                                        <li><a href="?page={{ i }}">{{ i }}</a></li> 
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        
+                                        {% if posts.has_next %}
+                                        <li><a href="?{% if query  %}q={{ query }}&{% endif %}page={{ posts.next_page_number }}">صفحه بعد</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+
+
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </section>
+            <!-- End product-section -->
+
+            
+{% endblock %}

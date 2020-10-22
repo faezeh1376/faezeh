@@ -1,0 +1,47 @@
+{% extends 'parent/main.html' %}
+{% load static %} 
+
+{% block body %} 
+
+{% include 'partial/header.html' %}
+{% include 'partial/banner.html' %}
+{% include 'partial/page_depth.html' %}
+ 
+
+		<!-- single-product-section
+			================================================== -->
+
+			{% for message in messages %}
+			{% if messages %}
+			<div style="text-align: center; background-color: #9cd22e; color: white; margin: 30px; padding: 11px; border-radius: 10px;">
+					{{ message }}
+				</div>
+				{% endif %}
+			{% endfor %}
+		 
+			<section class="single-product-section">
+			<div class="container">
+                <p>استراتژی مدیریت فروشگاه اینترنتی استریکس ، خلق بیشترین مزیت برای مشتریان و تامین رضایت حداکثری آنها بوده است. زیرا مدیریت، موفقیت خود را در گرو رضایت مشتریان دانسته و رضایت مشتریان تنها برگ برنده خواهد بود.</p>
+                <br>
+                <h5>اهداف و چشم اندازها:</h5>
+                <br>
+                <ul>
+                    
+    <li><p>عرضه محصولات با بهترین کیفیت</p></li>
+    <li><p>عرضه محصولات با کمترین قیمت و کمترین سود حاصل</p></li>
+    <li><p>ارسال محصولات به تمام نقاط کشور در کوتاهترین زمان</p></li>
+    <li><p>سیستم هوشمند پیگیری سفارشات و پاسخگویی</p></li>
+    <li><p>ایجاد فروشگاهی با قابلیت خرید برای هر قشر با هر توان مالی</p></li>
+    <li><p>قیمت مناسب و رقابتی</p></li>
+    <li><p>پشتیبانی و پاسخگویی مستمر</p></li>
+    <li><p>کاهش ترافیک و تراکم بازار</p></li>
+    <li><p>حذف محدودیت زمان و مکان در خرید</p></li>
+ 
+                </ul>
+
+			</div>
+		</section>
+		<!-- End single-product-section -->
+  
+
+		{% endblock %}

@@ -1,0 +1,68 @@
+{% load static %}
+<!-- Header
+		    ================================================== -->
+            <header class="clearfix trans">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{% url 'app:home' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a class="active" href="{% url 'app:home' %}">خانه</a></li> 
+                                <li class="drop">
+                                    <a href="#">محصولات</a>
+                                    <ul class="dropdown" style="direction: rtl; text-align:right;" >
+                                        {% for group in groups %}
+                                        <li><a style = "margin-right: 15px; padding: 8px; border-radius: 5px;font-weight: bold; background-color: #d2d2d2; color: black;">{{ group.title }}</a></li> 
+                                            {% for C in group.category.all %}
+                                                <li><a href="{% url 'app:categorys' C.name %}">{{ C }}</a></li> 
+                                            {% endfor %}
+                                        {% endfor %}
+                   
+
+                                    </ul>
+                                </li> 
+                                {% if not request.user.is_authenticated %}
+                                <li class="drop"><a href="{% url 'app:login' %}">ورود به سایت</a>    </li>   
+                                {% endif %}
+                                <li class="drop"><a href="{% url 'app:aboutus' %}">درباره ما </a>    </li>   
+ 
+                             
+                                <li class="search drop"><a href="#" class="open-search">جستجو در سایت</a>
+                                    <form method="POST" action="{% url 'app:search' %}" class="form-search">
+                                        <input type="search" name='q' placeholder="Search:"/>
+                                        {% csrf_token %}
+                                        <button type="submit"> 
+                                        </button>
+                                    </form>
+                                </li>
+                                {% if request.user.is_authenticated %}
+                                <li><a href="{% url 'app:cart' %}">سبد خرید</a></li> 
+                                <li   class="drop" style="direction: rtl; text-align: right;"><a href="#">
+                                    خوش آمدید {{request.user.first_name}}
+                                    <ul class="dropdown">  
+                                        {% if request.user.is_staff %}
+                                        <li><a href="/admin/">پنل مدیریت</a></li>  
+                                        {% endif %}
+                                        <li><a href="{% url 'app:logout' %}">خروج</a></li>  
+                                    </ul>
+                                </a> 
+                                </li>
+                                {% endif %}
+                                
+                             
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- End Header -->

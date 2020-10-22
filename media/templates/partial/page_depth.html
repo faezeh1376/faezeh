@@ -1,0 +1,18 @@
+		<!--page-depth-section 
+			================================================== -->
+            <section class="page-depth-section">
+                <div class="container">
+                    <ul>
+                        <li><a href="{% url 'app:home' %}">Home</a></li>
+                        {% if query %}
+                            <li><a href="{% url 'app:search' %}">جستجو در سایت</a></li>
+                        {% else %}
+                            <li><a href="{% url 'app:store' %}">فروشگاه</a></li>
+                        {% endif %}
+                        {% if post %}
+                        <li><a href="{% url 'app:detail' post.id %}">{{ post.title }} (بازدید: {{post.views}})</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </section>
+            <!-- End page-depth-section -->
